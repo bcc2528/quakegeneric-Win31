@@ -745,6 +745,8 @@ keypress.
 */
 int SCR_ModalMessage (char *text)
 {
+	vrect_t		vrect;
+
 	if (cls.state == ca_dedicated)
 		return true;
 
@@ -758,10 +760,18 @@ int SCR_ModalMessage (char *text)
 	
 	S_ClearBuffer ();		// so dma doesn't loop current sound
 
+	vrect.x = 0;
+	vrect.y = 0;
+	vrect.width = vid.width;
+	vrect.height = vid.height;
+	vrect.pnext = 0;
+
 	do
 	{
 		key_count = -1;		// wait for a key down and up
 		Sys_SendKeyEvents ();
+		IN_Commands ();
+		VID_Update (&vrect);
 	} while (key_lastpress != 'y' && key_lastpress != 'n' && key_lastpress != K_ESCAPE);
 
 	scr_fullupdate = 0;
