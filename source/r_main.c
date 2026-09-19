@@ -620,8 +620,6 @@ void R_DrawViewModel (void)
 		dl = &cl_dlights[lnum];
 		if (!dl->radius)
 			continue;
-		if (!dl->radius)
-			continue;
 		if (dl->die < cl.time)
 			continue;
 

@@ -213,16 +213,10 @@ qboolean R_AliasCheckBBox (void)
 		v0 = (viewaux[i].fv[0] * xscale * zi) + xcenter;
 		v1 = (viewaux[i].fv[1] * yscale * zi) + ycenter;
 
-		flags = 0;
-
-		if (v0 < r_refdef.fvrectx)
-			flags |= ALIAS_LEFT_CLIP;
-		if (v1 < r_refdef.fvrecty)
-			flags |= ALIAS_TOP_CLIP;
-		if (v0 > r_refdef.fvrectright)
-			flags |= ALIAS_RIGHT_CLIP;
-		if (v1 > r_refdef.fvrectbottom)
-			flags |= ALIAS_BOTTOM_CLIP;
+		flags = ((v0 < r_refdef.fvrectx)) |
+			((v1 < r_refdef.fvrecty) << 1) |
+			((v0 > r_refdef.fvrectright) << 2) |
+			((v1 > r_refdef.fvrectbottom) << 3);
 
 		anyclip |= flags;
 		allclip &= flags;
@@ -288,14 +282,10 @@ void R_AliasPreparePoints (void)
 		{
 			 R_AliasProjectFinalVert (fv, av);
 
-			if (fv->v[0] < r_refdef.aliasvrect.x)
-				fv->flags |= ALIAS_LEFT_CLIP;
-			if (fv->v[1] < r_refdef.aliasvrect.y)
-				fv->flags |= ALIAS_TOP_CLIP;
-			if (fv->v[0] > r_refdef.aliasvrectright)
-				fv->flags |= ALIAS_RIGHT_CLIP;
-			if (fv->v[1] > r_refdef.aliasvrectbottom)
-				fv->flags |= ALIAS_BOTTOM_CLIP;	
+			fv->flags |= ((fv->v[0] < r_refdef.aliasvrect.x)) |
+				((fv->v[1] < r_refdef.aliasvrect.y) << 1) |
+				((fv->v[0] > r_refdef.aliasvrectright) << 2) |
+				((fv->v[1] > r_refdef.aliasvrectbottom) << 3);
 		}
 	}
 
