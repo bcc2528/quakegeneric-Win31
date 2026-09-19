@@ -1,69 +1,18 @@
-# quakegeneric
+# Quake for Windows 3.1
 
-![a low-resolution screenshot of quake](./.github/quakegeneric.png)
+![Quake for Windows 3.1](./.github/Windows3.png)
 
-it's like [doomgeneric](https://github.com/ozkl/doomgeneric), but for quake. it's based on the GPL WinQuake source code.
+笑ってQuake
 
-currently it can only compile for 32-bit architechtures.
+## 仕様
+- グラフィックランタイム「WinG」必須。使用ゲームを既にインストールしている環境ならそのまま遊べますが、無い場合は別途インストール必要あり。今でもVectorなどで配布されてます。仮にVectorが消えても使用ゲームに同梱して配布する場合に限り一部ファイルを再配布可能なようなのでその時は同梱します。
+- FPUを搭載したCPU(Pentium以上推奨)、メモリ16MB（空きメモリが無い場合は起動しません）、色数32768色以上の画面モード必須。
+- サウンド出力にも対応(ステレオ・モノラル)してますが、Windows 3.1の仕様上、別にサウンド再生しているアプリ、またはシステム音が流れている状態でQuakeを起動するとPCMデバイスがあってもサウンドが鳴りません。
+- マウス操作可能。実行ファイルに同梱しているidフォルダ内にあるautoexec.cfgをそのまま利用すればWASD移動 & マウスルックが可能となります。マウス操作にするにはゲーム画面上で右クリック、再度右クリックすればまたWindowsにカーソルが戻ります。代わりにこの仕様のため右クリックに何が操作キーを割り当てることは不可能です。
+- セーブ & ロード可能
+- DOSBox-X環境にインストールしたIBM 日本語版 Windows 3.1、津軽エミュレータ上のFM TOWNS版Windows 3.1でハイレゾCRTC & FMT-3631(Power9000)で動作確認を行いましたが、DOSBox-X環境だと何故か5回ほど再起動をかけると保護違反エラーとなり起動しなくなります。FM TOWNS版Windows 3.1では何度再起動かけても問題ないので、PCエミュではなくDOSエミュというDOSBoxの仕様上の問題かと思いますが、誰か実環境のPC上でテストをお願いします。
+- スペックが十分なのに動作がカクツク場合は「メイン」→「コントロールパネル」→「エンハンスドモード」からスワップファイルを無効化、「占有時間の単位」を3～4にしてください。Windows 3.1は時間単位でタスクを処理するノンプリエンプティブ・マルチタスクになっており、デフォルトの20(ms)だと高速なCPUでは長すぎます。
 
-## implementations
-
-- [`quakegeneric_null.c`](./source/quakegeneric_null.c) - null
-- [`quakegeneric_dos.c`](./source/quakegeneric_dos.c) - MS-DOS
-- [`quakegeneric_sdl2.c`](./source/quakegeneric_sdl2.c) - SDL2
-- [`quakegeneric_w32.c`](./source/quakegeneric_w32.c) - Win32
-
-## building
-
-on unix-like platforms:
-
-```
-cd source/
-make
-```
-
-for Open Watcom:
-
-```
-cd source/
-wmake -f makefile.wat
-```
-
-for CMake:
-
-```
-mkdir cmake-build
-cd cmake-build/
-cmake ..
-make
-```
-
-for Meson:
-
-```
-mkdir meson-build
-meson setup meson-build
-cd meson-build/
-meson compile
-```
-
-for Windows:
-
-```
-cd source/
-nmake makefile.win
-```
-
-## platforms
-
-the following compilers have been tested to work with this source:
-
-- GCC
-- Clang
-- MinGW
-- TinyCC
-- Open Watcom
-- MSVC
 
 ## License
 
