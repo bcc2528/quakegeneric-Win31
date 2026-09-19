@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "quakekeys.h"
 
 #define QUAKEGENERIC_RES_X 320
-#define QUAKEGENERIC_RES_Y 240
+#define QUAKEGENERIC_RES_Y 200
 
 #define QUAKEGENERIC_JOY_MAX_AXES 6
 #define QUAKEGENERIC_JOY_AXIS_X 0
@@ -41,7 +41,8 @@ extern "C" {
 
 // provided functions
 void QG_Tick(double duration);
-void QG_Create(int argc, char *argv[]);
+void QG_Free(void);
+int QG_Create(int argc, char *argv[]);
 
 // user must implement these
 void QG_Init(void);
