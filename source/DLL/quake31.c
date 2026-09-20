@@ -10,7 +10,8 @@ WAVEHDR     gWaveHdr[NUM_BUFFERS];
 HGLOBAL     ghBuffer[NUM_BUFFERS] = {NULL, NULL};
 LPSTR       gpBuffer[NUM_BUFFERS] = {NULL, NULL};
 
-UINT       buffer_size;
+UINT	buffer_size;
+UINT	gCurBuf;
 
 int FAR PASCAL LibMain(HANDLE hInstance, WORD wDataSeg, WORD wHeapSize, LPSTR lpszCmdLine)
 {
@@ -78,6 +79,7 @@ DWORD FAR PASCAL __export SoundInit16(UINT size)
 	}
 
 	buffer_size = size;
+	gCurBuf = 0;
 
 	return 1;
 }
@@ -128,6 +130,7 @@ DWORD FAR PASCAL __export SoundInit(UINT size)
 	}
 
 	buffer_size = size;
+	gCurBuf = 0;
 
 	return 1;
 }
@@ -189,16 +192,11 @@ DWORD FAR PASCAL __export SoundWrite(LPSTR pBuffer)
 		return 0;
 	}
 
-	for(num = 0;num < NUM_BUFFERS;num++)
+	num = gCurBuf;
+
+	if (!(gWaveHdr[num].dwFlags & WHDR_DONE))
 	{
-		if (gWaveHdr[num].dwFlags & WHDR_DONE)
-		{
-			break;
-		}
-	}
-	if(num == NUM_BUFFERS)
-	{
-		return 0;
+			return 0;
 	}
 
 	Buf = gpBuffer[num];
@@ -206,6 +204,12 @@ DWORD FAR PASCAL __export SoundWrite(LPSTR pBuffer)
 	memcpy(Buf, pBuffer, buffer_size);
 
  	waveOutWrite(ghWaveOut, &gWaveHdr[num], sizeof(WAVEHDR));
+
+	gCurBuf++;
+	if(gCurBuf >= NUM_BUFFERS)
+	{
+		gCurBuf = 0;
+	}
 
 	return 1;
 }
