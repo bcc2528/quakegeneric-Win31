@@ -155,11 +155,11 @@ void Sys_Error (char *error, ...)
 {
 	va_list         argptr;
 
-	printf ("Sys_Error: ");   
+	//printf ("Sys_Error: ");   
 	va_start (argptr,error);
-	vprintf (error,argptr);
+	//vprintf (error,argptr);
 	va_end (argptr);
-	printf ("\n");
+	//printf ("\n");
 
 	exit (1);
 }
@@ -169,22 +169,13 @@ void Sys_Printf (char *fmt, ...)
 	va_list         argptr;
 	
 	va_start (argptr,fmt);
-	vprintf (fmt,argptr);
+	//vprintf (fmt,argptr);
 	va_end (argptr);
 }
 
 void Sys_Quit (void)
 {
 	exit (0);
-}
-
-double Sys_FloatTime (void)
-{
-	static double t;
-	
-	t += 0.1;
-	
-	return t;
 }
 
 char *Sys_ConsoleInput (void)

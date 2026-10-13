@@ -568,6 +568,13 @@ void SNDDMA_Submit(void)
 }
 
 
+double Sys_FloatTime (void)
+{
+	DWORD 	nowtime;
+	nowtime = _Call16(fptimeGetTime, "");
+	return (double)nowtime / 1000;
+}
+
 void Sys_SendKeyEvents (void)
 {
 	MSG         msg;
@@ -610,6 +617,8 @@ int PASCAL WinMain( HINSTANCE this_inst, HINSTANCE prev_inst, LPSTR cmdline,
 		return( FALSE );
 	}
 	init_Wing_Bitmap();
+
+	freopen("NUL", "w", stdout);
 
 	atexit(QG_Quit);
 
